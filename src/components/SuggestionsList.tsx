@@ -6,6 +6,7 @@ export default function SuggestionsList(props: {
   isOpen: Boolean;
 }) {
 
+  
 
   return (
     <div

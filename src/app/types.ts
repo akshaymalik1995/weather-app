@@ -4,7 +4,9 @@ export interface IWeatherData {
     time: string,
     country: string,
     weather: string,
-    id : string
+    id: string
+    lat: number,
+    lon : number
 }
 
 export interface ICitiesWeatherData {

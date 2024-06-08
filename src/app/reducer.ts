@@ -1,4 +1,4 @@
-import { ADD_CITY_WEATHER, DELETE_CITY_WEATHER, UPDATE_SEARCH_WEATHER } from "./constants"
+import { ADD_CITY_WEATHER, DELETE_CITY_WEATHER, UPDATE_SEARCH_WEATHER , UPDATE_CITY_WEATHER} from "./constants"
 import { IStore, IAction, IWeatherData, ICitiesWeatherData } from "./types"
 
 export default function (state: IStore, action: IAction) : IStore {
@@ -13,6 +13,21 @@ export default function (state: IStore, action: IAction) : IStore {
                         [newWeatherData.id]: newWeatherData
                     }
                 }
+            }
+        case UPDATE_CITY_WEATHER:
+            {
+                const newWeatherData = action.payload as IWeatherData
+                if (newWeatherData.id in state.citiesWeatherData) {
+                    return {
+                        ...state,
+                        citiesWeatherData: {
+                            ...state.citiesWeatherData,
+                            [newWeatherData.id]: newWeatherData
+                        }
+                    }
+                } 
+                return state
+                
             }
         case DELETE_CITY_WEATHER:
             {

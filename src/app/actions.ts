@@ -1,9 +1,16 @@
-import { ADD_CITY_WEATHER, DELETE_CITY_WEATHER, UPDATE_SEARCH_WEATHER } from "./constants"
+import { ADD_CITY_WEATHER, DELETE_CITY_WEATHER, UPDATE_CITY_WEATHER, UPDATE_SEARCH_WEATHER } from "./constants"
 import { IWeatherData } from "./types"
 
 export function addCityWeather(weatherData : IWeatherData) {
     return {
         type: ADD_CITY_WEATHER,
+        payload : weatherData
+    }
+}  
+
+export function updateCityWeather(weatherData : IWeatherData) {
+    return {
+        type: UPDATE_CITY_WEATHER,
         payload : weatherData
     }
 }
