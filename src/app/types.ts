@@ -14,7 +14,7 @@ export interface ICitiesWeatherData {
 export interface IStore {
     citiesWeatherData: ICitiesWeatherData,
     darkModeOn: Boolean,
-    searchWeatherData : null | IWeatherData
+    userWeatherData : null | IWeatherData
 }
 
 export interface IAction {

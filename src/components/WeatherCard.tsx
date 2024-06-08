@@ -29,7 +29,7 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
       </h2>
       <div className="flex justify-center items-center mb-4">
         <span className="text-4xl relative font-bold">
-          {weatherData.temperature.toFixed()}°{" "}
+          {weatherData.temperature.toFixed()}°
           <span className="absolute -right-4 -top-2 font-normal text-[2rem] ">
             c
           </span>{" "}
@@ -42,8 +42,8 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
         {weatherData.time}
       </div>
       <div className="grid rounded mt-4 grid-cols-2 ">
-        <div onClick={e => refreshWeather(weatherData.id)}  className="flex justify-center items-center cursor-pointer px-2 py-1  bg-blue-300 "><BiRefresh /></div>
-        <div className="flex justify-center items-center cursor-pointer px-2 py-1 bg-red-200 "><FiDelete /></div>
+        <div title="Refresh" onClick={e => refreshWeather(weatherData.id)}  className="flex justify-center items-center cursor-pointer px-2 py-1  bg-blue-300 "><BiRefresh /></div>
+        <div title="Delete" className="flex justify-center items-center cursor-pointer px-2 py-1 bg-red-200 "><FiDelete /></div>
       </div>
     </div>
   );

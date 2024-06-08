@@ -22,17 +22,21 @@ function App() {
     <StoreContext.Provider value={[globalState, dispatch]}>
       <div className="bg-blue-100 min-h-screen ">
         <div className="mx-auto   p-4 max-w-4xl">
-          <div className="my-16">
+          <div className="my-8">
             <h1 className="text-4xl text-gray-700  font-semibold text-center">
               Weather App
             </h1>
           </div>
-          <SearchForm />
           <UserWeather />
-          <div className='flex my-10 justify-start gap-8 flex-wrap' >
+          <SearchForm />
+
+          <div className="flex my-10 justify-start gap-8 flex-wrap">
             {Object.keys(globalState.citiesWeatherData).length > 0 &&
               Object.keys(globalState.citiesWeatherData).map((id) => (
-                <WeatherCard key={id} weatherData={globalState.citiesWeatherData[id]} />
+                <WeatherCard
+                  key={id}
+                  weatherData={globalState.citiesWeatherData[id]}
+                />
               ))}
           </div>
         </div>

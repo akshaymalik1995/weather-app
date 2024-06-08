@@ -42,9 +42,10 @@ export default function SearchForm() {
   }, [])
 
   async function onSuggestionSelection(city : string, countryCode : string) {
-    setLocationInput(city)
+    
     const weatherData = await getWeather(city, countryCode);
     dispatch(addCityWeather({ ...weatherData }));
+    setLocationInput("");
   }
 
   function handleFormSubmit(e: React.FormEvent) {
@@ -76,7 +77,7 @@ export default function SearchForm() {
     
   }
   return (
-    <div className="w-full">
+    <div className="w-full my-16">
       {/* A Form to take user input - Location */}
       <form
         onSubmit={(e) => handleFormSubmit(e)}
@@ -91,7 +92,7 @@ export default function SearchForm() {
             onChange={(e) => handleInputChange(e.target.value)}
             autoFocus={true}
             placeholder="Search City.."
-            className="px-2 w-full py-2 shadow focus:outline-none "
+            className="px-2 rounded w-full py-2 shadow focus:outline-none "
             type="search"
           />
           <SuggestionsList

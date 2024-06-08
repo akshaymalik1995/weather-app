@@ -3,7 +3,7 @@ import { IStore } from "./types"
 let initialState : IStore = {
     citiesWeatherData: {},
     darkModeOn: false,
-    searchWeatherData : null
+    userWeatherData : null
 }
 
 try {
