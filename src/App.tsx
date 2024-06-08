@@ -42,7 +42,9 @@ function App() {
           <SearchForm />
 
           <div className="flex my-10 justify-center gap-8 flex-wrap">
-            {Object.keys(globalState.citiesWeatherData).length > 0 &&
+            {globalState.citiesWeatherData && Object.keys(
+              globalState.citiesWeatherData
+            ).length > 0 &&
               Object.keys(globalState.citiesWeatherData).map((id) => (
                 <WeatherCard
                   key={id}

@@ -80,7 +80,7 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
         <div
           onClick={() => deleteWeather(weatherData.id)}
           title="Delete"
-          className="flex rounded-br justify-center items-center cursor-pointer p-2 bg-red-200 dark:bg-red-600"
+          className="flex rounded-br justify-center items-center cursor-pointer p-2 bg-red-200 dark:bg-red-500"
         >
           <FiDelete />
         </div>
