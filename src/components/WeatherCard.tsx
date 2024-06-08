@@ -4,7 +4,7 @@ import { BiRefresh } from "react-icons/bi";
 import { useContext } from "react";
 import StoreContext from "../app/store";
 import getWeather from "../lib/getWeather";
-import { updateCityWeather } from "../app/actions";
+import { deleteCityWeather, updateCityWeather } from "../app/actions";
 
 
 export default function WeatherCard(props: { weatherData: IWeatherData }) {
@@ -20,6 +20,11 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
     const newWeatherData = await getWeather(oldWeatherData.location, oldWeatherData.country)
     console.log(updateCityWeather({ ...newWeatherData }));
     dispatch(updateCityWeather({...newWeatherData}))
+  }
+
+
+  function deleteWeather(id: string) {
+    dispatch(deleteCityWeather(id))
   }
 
   return (
@@ -42,8 +47,20 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
         {weatherData.time}
       </div>
       <div className="grid rounded mt-4 grid-cols-2 ">
-        <div title="Refresh" onClick={e => refreshWeather(weatherData.id)}  className="flex justify-center items-center cursor-pointer px-2 py-1  bg-blue-300 "><BiRefresh /></div>
-        <div title="Delete" className="flex justify-center items-center cursor-pointer px-2 py-1 bg-red-200 "><FiDelete /></div>
+        <div
+          title="Refresh"
+          onClick={(e) => refreshWeather(weatherData.id)}
+          className="flex justify-center items-center cursor-pointer px-2 py-1  bg-blue-300 "
+        >
+          <BiRefresh />
+        </div>
+        <div
+          onClick={() => deleteWeather(weatherData.id)}
+          title="Delete"
+          className="flex justify-center items-center cursor-pointer px-2 py-1 bg-red-200 "
+        >
+          <FiDelete />
+        </div>
       </div>
     </div>
   );

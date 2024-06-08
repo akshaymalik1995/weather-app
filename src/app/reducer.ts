@@ -32,13 +32,15 @@ export default function (state: IStore, action: IAction) : IStore {
         case DELETE_CITY_WEATHER:
             {
                 const cityToDelete = action.payload as string
+               
                 return {
                     ...state,
-                    citiesWeatherData: Object.keys(state.citiesWeatherData).filter(key => key !== cityToDelete).reduce((obj: ICitiesWeatherData , key: string) => {
+                    citiesWeatherData: Object.keys(state.citiesWeatherData).filter(key => key !== cityToDelete.toString()).reduce((obj: ICitiesWeatherData , key: string) => {
                         obj[key] = state.citiesWeatherData[key] 
                       return obj  
                     }, {})
                 }
+                
             }
         case UPDATE_USER_WEATHER:
             {
