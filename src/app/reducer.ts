@@ -10,7 +10,7 @@ export default function (state: IStore, action: IAction) : IStore {
                     ...state,
                     citiesWeatherData: {
                         ...state.citiesWeatherData,
-                        [newWeatherData.location]: newWeatherData
+                        [newWeatherData.id]: newWeatherData
                     }
                 }
             }

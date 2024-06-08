@@ -22,10 +22,11 @@ function App() {
           </div>
           <SearchForm />
           <UserWeather />
-          <div>
-            {globalState.searchWeatherData && (
-              <WeatherCard weatherData={globalState.searchWeatherData} />
-            )}
+          <div className='flex my-10 justify-start gap-8 flex-wrap' >
+            {Object.keys(globalState.citiesWeatherData).length > 0 &&
+              Object.keys(globalState.citiesWeatherData).map((id) => (
+                <WeatherCard key={id} weatherData={globalState.citiesWeatherData[id]} />
+              ))}
           </div>
         </div>
       </div>

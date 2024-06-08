@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import SuggestionsList from "./SuggestionsList";
 import { useContext } from "react";
 import StoreContext from "../app/store";
-import { updateSearchWeather } from "../app/actions";
+import { addCityWeather } from "../app/actions";
+import getWeather from "../lib/getWeather";
 import { IWeatherData } from "../app/types";
+import { loadEnvFile } from "process";
 
 async function getCitiesSuggestion(value: string) {
   try {
@@ -16,6 +18,7 @@ async function getCitiesSuggestion(value: string) {
       throw new Error("Failed to get cities" + response.statusText);
     }
     const data = await response.json();
+    console.log(data)
     return data.cities
   } catch (error) {
     console.error(error);
@@ -23,23 +26,6 @@ async function getCitiesSuggestion(value: string) {
   }
 }
 
-async function getWeather(value: string) {
-  try {
-    const OPEN_WEATHER_KEY = import.meta.env.VITE_OPEN_WEATHER_KEY;
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
-      value
-    )}&appid=${OPEN_WEATHER_KEY}&units=metric`;
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Failed to get weather." + response.statusText);
-    }
-    const data = await response.json();
-    console.debug(data)
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-}
 
 export default function SearchForm() {
   const [globalState, dispatch] = useContext(StoreContext);
@@ -55,28 +41,14 @@ export default function SearchForm() {
     }
   }, [])
 
-  function onSuggestionSelection(value: string) {
-    setLocationInput(value);
-    closeSuggestions();
-    displaySearchWeatherData(value)
+  async function onSuggestionSelection(lat: number, lon: number) {
+    console.log(typeof lat, typeof lon)
+    const weatherData = await getWeather(lat, lon);
+    console.log(weatherData)
+    dispatch(addCityWeather({ ...weatherData }));
+    setLocationInput("");
   }
 
-  async function displaySearchWeatherData(value : string) {
-    const weatherData = await getWeather(value);
-    const newWeatherData: IWeatherData = {
-      location: weatherData.name,
-      timezone: weatherData.timezone,
-      country : weatherData.sys.country,
-      temperature: weatherData.main.temp,
-      weather: weatherData.weather[0].main,
-    };
-    dispatch(updateSearchWeather({...newWeatherData}));
-  }
-
-  function onFormSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    displaySearchWeatherData(locationInput)
-  }
 
   function closeSuggestions() {
     setSuggestionsOpen(false);
@@ -104,7 +76,7 @@ export default function SearchForm() {
     <div className="w-full">
       {/* A Form to take user input - Location */}
       <form
-        onSubmit={(e) => onFormSubmit(e)}
+        onSubmit={(e) => e.preventDefault()}
         className="flex w-full gap-4 "
         action=""
       >
@@ -125,10 +97,6 @@ export default function SearchForm() {
             suggestions={[...citySuggestions]}
           />
         </div>
-        {/* Button to submit the form */}
-        <button type="submit" className="px-4 py-2 shadow bg-blue-100  rounded">
-          Search
-        </button>
       </form>
     </div>
   );

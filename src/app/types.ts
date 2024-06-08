@@ -1,9 +1,10 @@
 export interface IWeatherData {
     location: string,
     temperature: number,
-    minTemp: number,
-    maxTemp: number,
-    weather : string
+    time: string,
+    country: string,
+    weather: string,
+    id : string
 }
 
 export interface ICitiesWeatherData {
