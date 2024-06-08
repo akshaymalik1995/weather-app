@@ -6,6 +6,8 @@ import { addCityWeather } from "../app/actions";
 import getWeather from "../lib/getWeather";
 import { IWeatherData } from "../app/types";
 import { loadEnvFile } from "process";
+import { FiDelete } from "react-icons/fi";
+import { MdCancel } from "react-icons/md";
 
 async function getCitiesSuggestion(value: string) {
   try {
@@ -32,6 +34,7 @@ export default function SearchForm() {
   const [locationInput, setLocationInput] = useState("");
   const [citySuggestions, setCitySuggestions] = useState<Object[]>([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const [error, setError] = useState("")
 
   useEffect(() => {
     document.addEventListener("click", closeSuggestions);
@@ -42,9 +45,13 @@ export default function SearchForm() {
   }, [])
 
   async function onSuggestionSelection(city : string, countryCode : string) {
+    try {
+          const weatherData = await getWeather(city, countryCode);
+          dispatch(addCityWeather({ ...weatherData }));
+    } catch (error : any) {
+        setError(error.message)
+    }
     
-    const weatherData = await getWeather(city, countryCode);
-    dispatch(addCityWeather({ ...weatherData }));
     setLocationInput("");
   }
 
@@ -63,6 +70,7 @@ export default function SearchForm() {
   }
 
   async function handleInputChange(value: string) {
+    setError("")
     setLocationInput(value);
     if (!value) {
       closeSuggestions();
@@ -103,6 +111,14 @@ export default function SearchForm() {
         </div>
         <button className="px-2 py-2 bg-blue-200 rounded"  type="submit">Search</button>
       </form>
+      {
+        error && (
+          <div className="p-2 items-center my-4 bg-red-200 flex justify-between rounded" >
+            {error.toUpperCase()}
+            <span className="text-2xl text-red-900 cursor-pointer" onClick={() => setError("")} ><MdCancel /></span>
+          </div>
+        )
+      }
     </div>
   );
 }
