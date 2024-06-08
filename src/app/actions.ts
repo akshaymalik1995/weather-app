@@ -1,4 +1,4 @@
-import { ADD_CITY_WEATHER, DELETE_CITY_WEATHER, UPDATE_CITY_WEATHER, UPDATE_USER_WEATHER } from "./constants"
+import { ADD_CITY_WEATHER, DELETE_CITY_WEATHER, TOGGLE_DARK_MODE, UPDATE_CITY_WEATHER, UPDATE_USER_WEATHER } from "./constants"
 import { IWeatherData } from "./types"
 
 export function addCityWeather(weatherData : IWeatherData) {
@@ -26,5 +26,11 @@ export function updateUserWeather(weatherData: IWeatherData | null) {
     return {
         type: UPDATE_USER_WEATHER,
         payload : weatherData
+    }
+}
+
+export function toggleDarkMode() {
+    return {
+        type: TOGGLE_DARK_MODE
     }
 }

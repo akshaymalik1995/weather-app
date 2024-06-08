@@ -1,4 +1,4 @@
-import { ADD_CITY_WEATHER, DELETE_CITY_WEATHER, UPDATE_USER_WEATHER , UPDATE_CITY_WEATHER} from "./constants"
+import { ADD_CITY_WEATHER, DELETE_CITY_WEATHER, UPDATE_USER_WEATHER , UPDATE_CITY_WEATHER, TOGGLE_DARK_MODE} from "./constants"
 import { IStore, IAction, IWeatherData, ICitiesWeatherData } from "./types"
 
 export default function (state: IStore, action: IAction) : IStore {
@@ -49,6 +49,11 @@ export default function (state: IStore, action: IAction) : IStore {
                     ...state,
                     userWeatherData : newWeatherData
                 }
+            }
+        case TOGGLE_DARK_MODE:
+            return {
+                ...state,
+                darkModeOn : !state.darkModeOn
             }
     }
     return state

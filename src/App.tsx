@@ -1,36 +1,47 @@
-import './App.css'
-import SearchForm from './components/SearchForm'
-import WeatherCard from './components/WeatherCard'
-import {useEffect, useReducer } from 'react'
-import StoreContext from './app/store'
-import initialState from './app/initialState'
-import reducer from './app/reducer'
-import UserWeather from './components/UserWeather'
+import "./App.css";
+import SearchForm from "./components/SearchForm";
+import WeatherCard from "./components/WeatherCard";
+import { useEffect, useReducer } from "react";
+import StoreContext from "./app/store";
+import initialState from "./app/initialState";
+import reducer from "./app/reducer";
+import UserWeather from "./components/UserWeather";
+import DarkModeSwitch from "./components/DarkModeSwitch";
 function App() {
-  
-  const [globalState, dispatch] = useReducer(reducer, initialState)
+  const [globalState, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     try {
-      localStorage.setItem("globalState", JSON.stringify(globalState))
+      localStorage.setItem("globalState", JSON.stringify(globalState));
     } catch (error) {
-      console.error("Failed to add globalState to localStorage")
+      console.error("Failed to add globalState to localStorage");
     }
-  }, [globalState])
+  }, [globalState]);
 
-  
+  useEffect(() => {
+    if (
+      globalState.darkModeOn &&
+      document.documentElement.classList.contains("dark")
+    ) {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+  }, [globalState.darkModeOn]);
+
   return (
     <StoreContext.Provider value={[globalState, dispatch]}>
-      <div className="bg-blue-100 min-h-screen ">
+      <div className="bg-blue-100 dark:bg-gray-900  min-h-screen ">
         <div className="mx-auto   p-4 max-w-4xl">
-          <div className="my-8">
-            <h1 className="text-4xl text-gray-700  font-semibold text-center">
-              Weather App
+          <div className="flex items-center justify-between  my-8">
+            <h1 className="text-4xl dark:text-white text-gray-700  font-semibold text-center">
+              OpenWeather
             </h1>
+            <DarkModeSwitch />
           </div>
           <UserWeather />
           <SearchForm />
 
-          <div className="flex my-10 justify-start gap-8 flex-wrap">
+          <div className="flex my-10 justify-center gap-8 flex-wrap">
             {Object.keys(globalState.citiesWeatherData).length > 0 &&
               Object.keys(globalState.citiesWeatherData).map((id) => (
                 <WeatherCard
@@ -45,4 +56,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

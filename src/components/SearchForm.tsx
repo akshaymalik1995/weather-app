@@ -57,6 +57,7 @@ export default function SearchForm() {
 
   function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (!locationInput) return
     onSuggestionSelection(locationInput)
   }
 
@@ -100,7 +101,7 @@ export default function SearchForm() {
             onChange={(e) => handleInputChange(e.target.value)}
             autoFocus={true}
             placeholder="Search City.."
-            className="px-2 rounded w-full py-2 shadow focus:outline-none "
+            className="px-2 dark:bg-gray-800 dark:text-white rounded w-full py-2 shadow focus:outline-none "
             type="search"
           />
           <SuggestionsList
@@ -122,7 +123,7 @@ export default function SearchForm() {
 
       {
         isLoading && (
-          <div className="text-blue-500 my-4 " >Loading...</div>
+          <div className="dark:text-white text-center  my-4 " >Loading...</div>
         )
       }
     </div>
