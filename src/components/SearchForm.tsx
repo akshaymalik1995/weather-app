@@ -4,9 +4,6 @@ import { useContext } from "react";
 import StoreContext from "../app/store";
 import { addCityWeather } from "../app/actions";
 import getWeather from "../lib/getWeather";
-import { IWeatherData } from "../app/types";
-import { loadEnvFile } from "process";
-import { FiDelete } from "react-icons/fi";
 import { MdCancel } from "react-icons/md";
 
 async function getCitiesSuggestion(value: string) {
@@ -35,6 +32,7 @@ export default function SearchForm() {
   const [citySuggestions, setCitySuggestions] = useState<Object[]>([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [error, setError] = useState("")
+  const [isLoading, setLoading] = useState(false) // State to manage loading status
 
   useEffect(() => {
     document.addEventListener("click", closeSuggestions);
@@ -44,7 +42,8 @@ export default function SearchForm() {
     }
   }, [])
 
-  async function onSuggestionSelection(city : string, countryCode : string) {
+  async function onSuggestionSelection(city: string, countryCode: string) {
+    setLoading(true)
     try {
           const weatherData = await getWeather(city, countryCode);
           dispatch(addCityWeather({ ...weatherData }));
@@ -53,6 +52,7 @@ export default function SearchForm() {
     }
     
     setLocationInput("");
+    setLoading(false)
   }
 
   function handleFormSubmit(e: React.FormEvent) {
@@ -109,7 +109,7 @@ export default function SearchForm() {
             suggestions={[...citySuggestions]}
           />
         </div>
-        <button className="px-2 py-2 bg-blue-200 rounded"  type="submit">Search</button>
+        <button className="px-2 py-2 bg-blue-200 rounded" type="submit">Search</button>
       </form>
       {
         error && (
@@ -117,6 +117,12 @@ export default function SearchForm() {
             {error.toUpperCase()}
             <span className="text-2xl text-red-900 cursor-pointer" onClick={() => setError("")} ><MdCancel /></span>
           </div>
+        )
+      }
+
+      {
+        isLoading && (
+          <div className="text-blue-500 my-4 " >Loading...</div>
         )
       }
     </div>
