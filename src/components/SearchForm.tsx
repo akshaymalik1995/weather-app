@@ -25,7 +25,6 @@ async function getCitiesSuggestion(value: string) {
 
 async function getWeather(value: string) {
   try {
-    console.debug(value)
     const OPEN_WEATHER_KEY = import.meta.env.VITE_OPEN_WEATHER_KEY;
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
       value
@@ -35,6 +34,7 @@ async function getWeather(value: string) {
       throw new Error("Failed to get weather." + response.statusText);
     }
     const data = await response.json();
+    console.debug(data)
     return data;
   } catch (error) {
     console.error(error);
@@ -65,8 +65,8 @@ export default function SearchForm() {
     const weatherData = await getWeather(value);
     const newWeatherData: IWeatherData = {
       location: weatherData.name,
-      minTemp: weatherData.main.temp_min,
-      maxTemp: weatherData.main.temp_max,
+      timezone: weatherData.timezone,
+      country : weatherData.sys.country,
       temperature: weatherData.main.temp,
       weather: weatherData.weather[0].main,
     };

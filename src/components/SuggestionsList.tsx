@@ -15,7 +15,7 @@ export default function SuggestionsList(props: {
     <div
       className={`shadow ${
         props.isOpen ? "" : "hidden"
-      } bg-white flex rounded flex-col w-full absolute top-full`}
+      } bg-white z-10 flex rounded flex-col w-full absolute top-full`}
     >
       {props.suggestions.length > 0 &&
         props.suggestions.map((city) => (
