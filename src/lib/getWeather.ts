@@ -1,10 +1,10 @@
 import { IWeatherData } from "../app/types";
 import getCityTime from "./getCityTime";
 
-export default async function getWeather(lat : number, lon: number) {
+export default async function getWeather(city : string, countryCode : string) {
     try {
         const OPEN_WEATHER_KEY = import.meta.env.VITE_OPEN_WEATHER_KEY;
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_KEY}&units=metric`;
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${OPEN_WEATHER_KEY}&units=metric`;
         
         const response = await fetch(url);
         if (!response.ok) {
@@ -19,8 +19,6 @@ export default async function getWeather(lat : number, lon: number) {
             country: data.sys.country,
             temperature: data.main.temp,
             weather: data.weather[0].main,
-            lat: data.coord.lat,
-            lon: data.coord.lon
         };
         console.log(weatherData)
         return weatherData;

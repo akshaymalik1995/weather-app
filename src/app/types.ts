@@ -5,8 +5,6 @@ export interface IWeatherData {
     country: string,
     weather: string,
     id: string
-    lat: number,
-    lon : number
 }
 
 export interface ICitiesWeatherData {

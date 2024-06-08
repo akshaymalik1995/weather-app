@@ -17,7 +17,7 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
   async function refreshWeather(id: string) {
     console.log(id)
     const oldWeatherData = globalState.citiesWeatherData[id]
-    const newWeatherData = await getWeather(oldWeatherData.lat, oldWeatherData.lon)
+    const newWeatherData = await getWeather(oldWeatherData.location, oldWeatherData.country)
     console.log(updateCityWeather({ ...newWeatherData }));
     dispatch(updateCityWeather({...newWeatherData}))
   }

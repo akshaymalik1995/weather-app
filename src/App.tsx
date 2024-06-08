@@ -1,14 +1,21 @@
 import './App.css'
 import SearchForm from './components/SearchForm'
 import WeatherCard from './components/WeatherCard'
-import {useReducer } from 'react'
+import {useEffect, useReducer } from 'react'
 import StoreContext from './app/store'
 import initialState from './app/initialState'
 import reducer from './app/reducer'
 import UserWeather from './components/UserWeather'
 function App() {
   
-  const [globalState, dispatch]  = useReducer(reducer, initialState)
+  const [globalState, dispatch] = useReducer(reducer, initialState)
+  useEffect(() => {
+    try {
+      localStorage.setItem("globalState", JSON.stringify(globalState))
+    } catch (error) {
+      console.error("Failed to add globalState to localStorage")
+    }
+  }, [globalState])
 
   
   return (

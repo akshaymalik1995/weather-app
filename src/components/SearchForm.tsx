@@ -41,12 +41,15 @@ export default function SearchForm() {
     }
   }, [])
 
-  async function onSuggestionSelection(lat: number, lon: number) {
-    console.log(typeof lat, typeof lon)
-    const weatherData = await getWeather(lat, lon);
-    console.log(weatherData)
+  async function onSuggestionSelection(city : string, countryCode : string) {
+    setLocationInput(city)
+    const weatherData = await getWeather(city, countryCode);
     dispatch(addCityWeather({ ...weatherData }));
-    setLocationInput("");
+  }
+
+  function handleFormSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    onSuggestionSelection(locationInput)
   }
 
 
@@ -76,7 +79,7 @@ export default function SearchForm() {
     <div className="w-full">
       {/* A Form to take user input - Location */}
       <form
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={(e) => handleFormSubmit(e)}
         className="flex w-full gap-4 "
         action=""
       >
@@ -97,6 +100,7 @@ export default function SearchForm() {
             suggestions={[...citySuggestions]}
           />
         </div>
+        <button className="px-2 py-2 bg-blue-200 rounded"  type="submit">Search</button>
       </form>
     </div>
   );

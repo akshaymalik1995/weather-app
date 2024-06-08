@@ -2,11 +2,11 @@ import { CiSearch } from "react-icons/ci";
 
 export default function SuggestionsList(props: {
   suggestions: Object[];
-  onSuggestionSelection: (lat: number, lon : number) => void;
+  onSuggestionSelection: (city: string, countryCode : string) => void;
   isOpen: Boolean;
 }) {
 
-  
+
 
   return (
     <div
@@ -18,7 +18,7 @@ export default function SuggestionsList(props: {
         props.suggestions.map((city) => (
           <div
             key={city.code}
-            onClick={() => props.onSuggestionSelection(parseFloat(city.latitude), parseFloat(city.longitude))}
+            onClick={() => props.onSuggestionSelection(city.name, city.country.code)}
             className="px-2 py-2 hover:bg-gray-100  cursor-pointer  flex items-center gap-2"
           >
             <div className="text-lg text-gray-500  ">
