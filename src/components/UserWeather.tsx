@@ -50,7 +50,7 @@ export default function UserWeather() {
                 
                   {globalState.userWeatherData.weather in weatherIconMapping
                     ? 
-                     (<div className="text-xl">weatherIconMapping[globalState.userWeatherData.weather]</div>)
+                  (<div className="text-xl">{weatherIconMapping[globalState.userWeatherData.weather]}</div>)
                     : ""}
                
                 {globalState.userWeatherData.weather}
