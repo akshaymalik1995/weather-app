@@ -29,8 +29,9 @@ export function updateUserWeather(weatherData: IWeatherData | null) {
     }
 }
 
-export function toggleDarkMode() {
+export function toggleDarkMode(toggleState? : Boolean) {
     return {
-        type: TOGGLE_DARK_MODE
+        type: TOGGLE_DARK_MODE,
+        payload : toggleState
     }
 }

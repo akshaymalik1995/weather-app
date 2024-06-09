@@ -53,7 +53,7 @@ export default function (state: IStore, action: IAction) : IStore {
         case TOGGLE_DARK_MODE:
             return {
                 ...state,
-                darkModeOn : !state.darkModeOn
+                darkModeOn : action.payload || !state.darkModeOn
             }
     }
     return state

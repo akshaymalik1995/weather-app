@@ -18,17 +18,7 @@ function App() {
   }, [globalState]);
 
   useEffect(() => {
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches &&
-      !document.documentElement.classList.contains("dark")
-    ) {
-      document.documentElement.classList.add("dark");
-    }
-    if (
-      globalState.darkModeOn &&
-      document.documentElement.classList.contains("dark")
-    ) {
+    if (!globalState.darkModeOn) {
       document.documentElement.classList.remove("dark");
     } else {
       document.documentElement.classList.add("dark");
@@ -54,7 +44,7 @@ function App() {
               Object.keys(globalState.citiesWeatherData)
                 .sort(
                   (key1, key2) =>
-                   ( globalState.citiesWeatherData[key2].createdAt || 1) -
+                    (globalState.citiesWeatherData[key2].createdAt || 1) -
                     (globalState.citiesWeatherData[key1].createdAt || 1)
                 )
                 .map((id) => (
