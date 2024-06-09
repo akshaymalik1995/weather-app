@@ -10,12 +10,12 @@ import getCityTime from "./getCityTime";
  * @param countryCode The country code of the city. Example, "IN" for India
  * @returns An object containing weather data for the specified city
  */
-export default async function getWeather(city : string, countryCode : string) {
+export default async function getWeather(query : string) {
     try {
         // Retrieving the OpenWeatherMap API Key from environment variables
         const OPEN_WEATHER_KEY = import.meta.env.VITE_OPEN_WEATHER_KEY;
         // Constructing the URL for the OpenWeatherMap API Request
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${OPEN_WEATHER_KEY}&units=metric`;
+        const url = `https://api.openweathermap.org/data/2.5/weather?${query}&appid=${OPEN_WEATHER_KEY}&units=metric`;
         
         // Make the API request
         const response = await fetch(url);

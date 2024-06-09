@@ -45,7 +45,8 @@ export default function SearchForm() {
   async function onSuggestionSelection(city: string, countryCode: string) {
     setLoading(true)
     try {
-      const weatherData = await getWeather(city, countryCode);
+      const query = `q=${city},${countryCode}`
+      const weatherData = await getWeather(query);
       if (!dispatch) return
           dispatch(addCityWeather({ ...weatherData }));
     } catch (error : any) {

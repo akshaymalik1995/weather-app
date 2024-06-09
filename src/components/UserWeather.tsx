@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import getWeatherByCoords from "../lib/getWeatherByCoords";
+import getWeather from "../lib/getWeather";
 import { useContext } from "react";
 import StoreContext from "../app/store";
 import { updateUserWeather } from "../app/actions";
@@ -10,12 +10,12 @@ import { IoIosThunderstorm } from "react-icons/io";
 import { BsCloudDrizzleFill } from "react-icons/bs";
 
 interface IWeatherIconMapping {
-  [weather : string] : ReactElement
+  [weather: string]: ReactElement;
 }
 
 export default function UserWeather() {
   const [globalState, dispatch] = useContext(StoreContext);
-  const weatherIconMapping  : IWeatherIconMapping = {
+  const weatherIconMapping: IWeatherIconMapping = {
     Clear: <LuSun />,
     Clouds: <IoCloudSharp />,
     Rain: <IoRainy />,
@@ -26,16 +26,14 @@ export default function UserWeather() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
-          const weather = await getWeatherByCoords(
-            position.coords.latitude,
-            position.coords.longitude
-          );
-          if (!dispatch) return
+          const query = `lat=${position.coords.latitude}&lon=${position.coords.longitude}`;
+          const weather = await getWeather(query);
+          if (!dispatch) return;
           dispatch(updateUserWeather({ ...weather }));
         },
         () => {
-            if (!dispatch) return
-            dispatch(updateUserWeather(null))
+          if (!dispatch) return;
+          dispatch(updateUserWeather(null));
         }
       );
     }
@@ -53,12 +51,14 @@ export default function UserWeather() {
                 {globalState.userWeatherData.temperature.toFixed()}°
               </div>
               <div className="dark:text-white flex items-center gap-2 bg-blue-300/70 dark:bg-gray-700  px-2 rounded p-2 ">
-                
-                  {globalState.userWeatherData.weather in weatherIconMapping
-                    ? 
-                  (<div className="text-xl">{weatherIconMapping[globalState.userWeatherData.weather]}</div>)
-                    : ""}
-               
+                {globalState.userWeatherData.weather in weatherIconMapping ? (
+                  <div className="text-xl">
+                    {weatherIconMapping[globalState.userWeatherData.weather]}
+                  </div>
+                ) : (
+                  ""
+                )}
+
                 {globalState.userWeatherData.weather}
               </div>
             </div>

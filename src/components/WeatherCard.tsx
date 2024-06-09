@@ -37,7 +37,8 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
     console.log(id)
     if (!globalState || !dispatch) return
     const oldWeatherData = globalState.citiesWeatherData[id]
-    const newWeatherData = await getWeather(oldWeatherData.location, oldWeatherData.country)
+    const query = `q=${oldWeatherData.location},${oldWeatherData.country}`;
+    const newWeatherData = await getWeather(query)
     console.log(updateCityWeather({ ...newWeatherData }));
     dispatch(updateCityWeather({...newWeatherData}))
   }
