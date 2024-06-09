@@ -4,7 +4,8 @@ export interface IWeatherData {
     time: string,
     country: string,
     weather: string,
-    id: string
+    id: string,
+    createdAt? : number
 }
 
 export interface ICitiesWeatherData {

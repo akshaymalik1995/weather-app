@@ -34,6 +34,7 @@ export default async function getWeather(query : string) {
             country: data.sys.country,
             temperature: data.main.temp,
             weather: data.weather[0].main,
+            createdAt : new Date().getTime()
         };
         
         // Returning the weather data

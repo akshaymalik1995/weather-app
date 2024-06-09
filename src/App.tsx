@@ -42,15 +42,20 @@ function App() {
           <SearchForm />
 
           <div className="flex my-10 justify-center gap-8 flex-wrap">
-            {globalState.citiesWeatherData && Object.keys(
-              globalState.citiesWeatherData
-            ).length > 0 &&
-              Object.keys(globalState.citiesWeatherData).map((id) => (
-                <WeatherCard
-                  key={id}
-                  weatherData={globalState.citiesWeatherData[id]}
-                />
-              ))}
+            {globalState.citiesWeatherData &&
+              Object.keys(globalState.citiesWeatherData).length > 0 &&
+              Object.keys(globalState.citiesWeatherData)
+                .sort(
+                  (key1, key2) =>
+                   ( globalState.citiesWeatherData[key2].createdAt || 1) -
+                    (globalState.citiesWeatherData[key1].createdAt || 1)
+                )
+                .map((id) => (
+                  <WeatherCard
+                    key={id}
+                    weatherData={globalState.citiesWeatherData[id]}
+                  />
+                ))}
           </div>
         </div>
       </div>
