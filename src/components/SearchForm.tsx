@@ -8,64 +8,78 @@ import { MdCancel } from "react-icons/md";
 import Spinner from "./Spinner";
 import { BiSearch } from "react-icons/bi";
 
+// Function to asynchronously fetch city suggestions based on user input
 async function getCitiesSuggestion(value: string) {
   try {
+    // Constructing the URL for the API call with encoded search value
     const url = `https://api.thecompaniesapi.com/v1/locations/cities?search=${encodeURIComponent(
       value
     )}&size=5`;
-    
+
+    // Fetching data from the API
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error("Failed to get cities" + response.statusText);
     }
     const data = await response.json();
-    console.log(data)
-    return data.cities
+    console.log(data);
+    return data.cities;
   } catch (error) {
     console.error(error);
     return [];
   }
 }
 
-
+// Main functional component for the search form
 export default function SearchForm() {
+  // Destructuring the store context to access dispatch
   const [, dispatch] = useContext(StoreContext);
+
+  // State variables for managing form inputs, suggestions, and UI states
   const [locationInput, setLocationInput] = useState("");
   const [citySuggestions, setCitySuggestions] = useState<Object[]>([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
-  const [error, setError] = useState("")
-  const [isLoading, setLoading] = useState(false) // State to manage loading status
+  const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false); // State to manage loading status
 
+  // Event listener to close suggestions on document click outside the suggestions list
   useEffect(() => {
     document.addEventListener("click", closeSuggestions);
 
     return () => {
-      document.removeEventListener("click", closeSuggestions)
-    }
-  }, [])
+      document.removeEventListener("click", closeSuggestions);
+    };
+  }, []);
 
+  // Handler for selecting a suggestion from the list
   async function onSuggestionSelection(city: string, countryCode: string) {
-    setLoading(true)
+    setLoading(true);
     try {
-      const query = `q=${city},${countryCode}`
+      // Constructing the query string for fetching weather data
+      const query = `q=${city},${countryCode}`;
+      // Fetching weather data for the selected city
       const weatherData = await getWeather(query);
-      if (!dispatch) return
-          dispatch(addCityWeather({ ...weatherData }));
-    } catch (error : any) {
-        setError(error.message)
+      // Dispatching the action to update the global state with fetched weather data
+      if (!dispatch) return;
+      dispatch(addCityWeather({ ...weatherData }));
+    } catch (error: any) {
+      // Setting error message in state if fetching fails
+      setError(error.message);
     }
-    
+
+    // Resetting form input and loading state after successful operation
     setLocationInput("");
-    setLoading(false)
+    setLoading(false);
   }
 
+  // Handler for form submission
   function handleFormSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!locationInput) return
-    onSuggestionSelection(locationInput, "")
+    e.preventDefault();
+    if (!locationInput) return;
+    onSuggestionSelection(locationInput, "");
   }
 
-
+  // Handlers for opening and closing suggestions list
   function closeSuggestions() {
     setSuggestionsOpen(false);
   }
@@ -74,8 +88,9 @@ export default function SearchForm() {
     setSuggestionsOpen(true);
   }
 
+  // Handler for input change to fetch and display suggestions
   async function handleInputChange(value: string) {
-    setError("")
+    setError("");
     setLocationInput(value);
     if (!value) {
       closeSuggestions();
@@ -83,11 +98,10 @@ export default function SearchForm() {
       return;
     }
     openSuggestions();
-    const cities : Object[] = await getCitiesSuggestion(value);
+    const cities: Object[] = await getCitiesSuggestion(value);
     if (cities) {
       setCitySuggestions([...cities]);
     }
-    
   }
   return (
     <div className="w-full my-16">
@@ -120,7 +134,7 @@ export default function SearchForm() {
           {isLoading ? (
             <Spinner />
           ) : (
-            <div className="w-6 h-6 flex justify-center items-center " >
+            <div className="w-6 h-6 flex justify-center items-center ">
               <BiSearch />
             </div>
           )}

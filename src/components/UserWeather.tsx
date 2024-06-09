@@ -9,12 +9,17 @@ import { IoRainy } from "react-icons/io5";
 import { IoIosThunderstorm } from "react-icons/io";
 import { BsCloudDrizzleFill } from "react-icons/bs";
 
+// Define a mapping between weather conditions and corresponding icons
 interface IWeatherIconMapping {
   [weather: string]: ReactElement;
 }
 
+// Main functional component for displaying user-specific weather data
 export default function UserWeather() {
+  // Use the StoreContext to access and manipulate the global state
   const [globalState, dispatch] = useContext(StoreContext);
+
+  // Mapping of weather conditions to their corresponding icons
   const weatherIconMapping: IWeatherIconMapping = {
     Clear: <LuSun />,
     Clouds: <IoCloudSharp />,
@@ -22,22 +27,31 @@ export default function UserWeather() {
     Thunderstorm: <IoIosThunderstorm />,
     Drizzle: <BsCloudDrizzleFill />,
   };
+
+  // Effect hook to fetch and update weather data when the component mounts
   useEffect(() => {
+    // Check if geolocation is supported and request permission to access location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
+          // Construct a query string with latitude and longitude
           const query = `lat=${position.coords.latitude}&lon=${position.coords.longitude}`;
+          // Fetch weather data using the constructed query
           const weather = await getWeather(query);
+          // Update the global state with the fetched weather data
           if (!dispatch) return;
           dispatch(updateUserWeather({ ...weather }));
         },
         () => {
+          // Handle errors in fetching geolocation or weather data
           if (!dispatch) return;
           dispatch(updateUserWeather(null));
         }
       );
     }
   }, []);
+
+  // Render the component, conditionally displaying weather data if available
   return (
     <>
       {globalState?.userWeatherData && (
