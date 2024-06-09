@@ -19,6 +19,13 @@ function App() {
 
   useEffect(() => {
     if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches &&
+      !document.documentElement.classList.contains("dark")
+    ) {
+      document.documentElement.classList.add("dark");
+    }
+    if (
       globalState.darkModeOn &&
       document.documentElement.classList.contains("dark")
     ) {
