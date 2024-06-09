@@ -11,7 +11,7 @@ export default function DarkModeSwitch() {
         onClick={() => dispatch && dispatch(toggleDarkMode())}
         className="bg-blue-50 dark:text-white dark:bg-gray-800  p-2 cursor-pointer rounded "
       >
-        {globalState?.darkModeOn ? <IoMdMoon /> : <FiSun />}
+        {globalState?.darkModeOn ? <FiSun /> : <IoMdMoon />}
       </div>
     );
 }
