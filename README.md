@@ -1,8 +1,8 @@
-# Project Title: Open Weather
+# Open Weather
 
 ## Table of Contents
 
-- [Project Title: Open Weather](#project-title-open-weather)
+- [Open Weather](#open-weather)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Built With](#built-with)
