@@ -45,7 +45,8 @@ export default function SearchForm() {
   async function onSuggestionSelection(city: string, countryCode: string) {
     setLoading(true)
     try {
-          const weatherData = await getWeather(city, countryCode);
+      const weatherData = await getWeather(city, countryCode);
+      if (!dispatch) return
           dispatch(addCityWeather({ ...weatherData }));
     } catch (error : any) {
         setError(error.message)
@@ -58,7 +59,7 @@ export default function SearchForm() {
   function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!locationInput) return
-    onSuggestionSelection(locationInput)
+    onSuggestionSelection(locationInput, "")
   }
 
 

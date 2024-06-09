@@ -1,7 +1,7 @@
 import { IStore, IWeatherData } from "../app/types";
 import { FiDelete } from "react-icons/fi";
 import { BiRefresh } from "react-icons/bi";
-import { useContext } from "react";
+import { ReactElement, useContext } from "react";
 import StoreContext from "../app/store";
 import getWeather from "../lib/getWeather";
 import { deleteCityWeather, updateCityWeather } from "../app/actions";
@@ -11,14 +11,18 @@ import { IoRainy } from "react-icons/io5";
 import { IoIosThunderstorm } from "react-icons/io";
 import { BsCloudDrizzleFill } from "react-icons/bs";
 
-
+interface IWeatherIconMapping {
+  [weather: string]: ReactElement;
+}
+  
 
 
 export default function WeatherCard(props: { weatherData: IWeatherData }) {
   const weatherData = props.weatherData
   const [globalState, dispatch] = useContext(StoreContext)
+
   
-  const weatherIconMapping = {
+  const weatherIconMapping : IWeatherIconMapping = {
     "Clear": <LuSun />,
     "Clouds": <IoCloudSharp />,
     "Rain": <IoRainy />,
@@ -31,6 +35,7 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
   // Change the global state
   async function refreshWeather(id: string) {
     console.log(id)
+    if (!globalState || !dispatch) return
     const oldWeatherData = globalState.citiesWeatherData[id]
     const newWeatherData = await getWeather(oldWeatherData.location, oldWeatherData.country)
     console.log(updateCityWeather({ ...newWeatherData }));
@@ -39,6 +44,7 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
 
 
   function deleteWeather(id: string) {
+    if (!dispatch) return
     dispatch(deleteCityWeather(id))
   }
 

@@ -15,7 +15,7 @@ export default function SuggestionsList(props: {
       } bg-white z-10 flex dark:bg-gray-800 dark:text-white rounded flex-col w-full absolute top-full`}
     >
       {props.suggestions.length > 0 &&
-        props.suggestions.map((city) => (
+        props.suggestions.map((city : any) => (
           <div
             key={city.code}
             onClick={() => props.onSuggestionSelection(city.name, city.country.code)}

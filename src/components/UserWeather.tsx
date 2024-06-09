@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import getWeatherByCoords from "../lib/getWeatherByCoords";
 import { useContext } from "react";
 import StoreContext from "../app/store";
@@ -9,9 +9,13 @@ import { IoRainy } from "react-icons/io5";
 import { IoIosThunderstorm } from "react-icons/io";
 import { BsCloudDrizzleFill } from "react-icons/bs";
 
+interface IWeatherIconMapping {
+  [weather : string] : ReactElement
+}
+
 export default function UserWeather() {
   const [globalState, dispatch] = useContext(StoreContext);
-  const weatherIconMapping = {
+  const weatherIconMapping  : IWeatherIconMapping = {
     Clear: <LuSun />,
     Clouds: <IoCloudSharp />,
     Rain: <IoRainy />,
@@ -26,9 +30,11 @@ export default function UserWeather() {
             position.coords.latitude,
             position.coords.longitude
           );
+          if (!dispatch) return
           dispatch(updateUserWeather({ ...weather }));
         },
-          () => {
+        () => {
+            if (!dispatch) return
             dispatch(updateUserWeather(null))
         }
       );
@@ -36,7 +42,7 @@ export default function UserWeather() {
   }, []);
   return (
     <>
-      {globalState.userWeatherData && (
+      {globalState?.userWeatherData && (
         <div className="p-6 max-w-md mx-auto bg-blue-200 my-8 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
           <h2 className="text-2xl dark:text-white font-semibold text-center mb-4">
             Weather in {globalState.userWeatherData.location}
