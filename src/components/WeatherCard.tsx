@@ -1,4 +1,4 @@
-import { IStore, IWeatherData } from "../app/types";
+import { IWeatherData } from "../app/types";
 import { FiDelete } from "react-icons/fi";
 import { BiRefresh } from "react-icons/bi";
 import { ReactElement, useContext } from "react";
@@ -77,7 +77,7 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
       <div className="grid  rounded mt-4 grid-cols-2">
         <div
           title="Refresh"
-          onClick={(e) => refreshWeather(weatherData.id)}
+          onClick={() => refreshWeather(weatherData.id)}
           className="flex rounded-bl text-xl justify-center items-center cursor-pointer p-2 bg-blue-300 dark:bg-gray-700"
         >
           <BiRefresh />

@@ -29,7 +29,7 @@ async function getCitiesSuggestion(value: string) {
 
 
 export default function SearchForm() {
-  const [globalState, dispatch] = useContext(StoreContext);
+  const [, dispatch] = useContext(StoreContext);
   const [locationInput, setLocationInput] = useState("");
   const [citySuggestions, setCitySuggestions] = useState<Object[]>([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import  { ReactElement, useEffect } from "react";
 import getWeather from "../lib/getWeather";
 import { useContext } from "react";
 import StoreContext from "../app/store";

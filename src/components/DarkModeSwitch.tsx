@@ -8,7 +8,7 @@ export default function DarkModeSwitch() {
     const [globalState, dispatch] = useContext(StoreContext)
     return (
       <div
-        onClick={(e) => dispatch && dispatch(toggleDarkMode())}
+        onClick={() => dispatch && dispatch(toggleDarkMode())}
         className="bg-blue-50 dark:text-white dark:bg-gray-800  p-2 cursor-pointer rounded "
       >
         {globalState?.darkModeOn ? <IoMdMoon /> : <FiSun />}
