@@ -39,8 +39,7 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
     const oldWeatherData = globalState.citiesWeatherData[id]
     const query = `q=${oldWeatherData.location},${oldWeatherData.country}`;
     const newWeatherData = await getWeather(query)
-    console.log(updateCityWeather({ ...newWeatherData }));
-    dispatch(updateCityWeather({...newWeatherData}))
+    dispatch(updateCityWeather({...newWeatherData, createdAt : oldWeatherData.createdAt }))
   }
 
 
@@ -65,11 +64,10 @@ export default function WeatherCard(props: { weatherData: IWeatherData }) {
       </div>
       <div className="mb-4 flex gap-2 justify-center items-center ">
         <div className="dark:text-white flex items-center gap-2 bg-blue-300/30 px-2 rounded p-1 ">
-          <div className=" text-xl">
+          
             {weatherData.weather in weatherIconMapping
-              ? weatherIconMapping[weatherData.weather]
+              ? <div className="text-xl">{weatherIconMapping[weatherData.weather]}</div>
               : ""}
-          </div>
           {weatherData.weather}
         </div>
       </div>

@@ -5,6 +5,8 @@ import StoreContext from "../app/store";
 import { addCityWeather } from "../app/actions";
 import getWeather from "../lib/getWeather";
 import { MdCancel } from "react-icons/md";
+import Spinner from "./Spinner";
+import { BiSearch } from "react-icons/bi";
 
 async function getCitiesSuggestion(value: string) {
   try {
@@ -98,7 +100,6 @@ export default function SearchForm() {
         {/* A Text Input */}
         <div className="grow relative">
           <input
-            
             value={locationInput}
             onChange={(e) => handleInputChange(e.target.value)}
             autoFocus={true}
@@ -112,22 +113,30 @@ export default function SearchForm() {
             suggestions={[...citySuggestions]}
           />
         </div>
-        <button className="px-2 py-2 bg-blue-200 rounded" type="submit">Search</button>
+        <button
+          className="px-2 py-2 bg-white dark:bg-gray-700 dark:text-white text-blue-500 rounded"
+          type="submit"
+        >
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <div className="w-6 h-6 flex justify-center items-center " >
+              <BiSearch />
+            </div>
+          )}
+        </button>
       </form>
-      {
-        error && (
-          <div className="p-2 items-center my-4 bg-red-200 flex justify-between rounded" >
-            {error.toUpperCase()}
-            <span className="text-2xl text-red-900 cursor-pointer" onClick={() => setError("")} ><MdCancel /></span>
-          </div>
-        )
-      }
-
-      {
-        isLoading && (
-          <div className="dark:text-white text-center  my-4 " >Loading...</div>
-        )
-      }
+      {error && (
+        <div className="p-2 items-center my-4 bg-red-200 flex justify-between rounded">
+          {error.toUpperCase()}
+          <span
+            className="text-2xl text-red-900 cursor-pointer"
+            onClick={() => setError("")}
+          >
+            <MdCancel />
+          </span>
+        </div>
+      )}
     </div>
   );
 }

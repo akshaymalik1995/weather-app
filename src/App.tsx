@@ -41,7 +41,7 @@ function App() {
           <UserWeather />
           <SearchForm />
 
-          <div className="flex my-10 justify-center gap-8 flex-wrap">
+          <div className="flex justify-center gap-8 flex-wrap">
             {globalState.citiesWeatherData &&
               Object.keys(globalState.citiesWeatherData).length > 0 &&
               Object.keys(globalState.citiesWeatherData)
